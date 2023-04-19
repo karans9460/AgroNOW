@@ -40,7 +40,7 @@ app.use(parseUrl.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
 var con=mysql.createConnection({
-    host:"sv102.ifastnet.com:3306",
+    host:"sv102.ifastnet.com",
     user:"nuvieliv_agronow", // my username
     password:"agronow@#$123", // my password
     database:"nuvieliv_angelin"
