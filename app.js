@@ -40,10 +40,10 @@ app.use(parseUrl.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
 var con=mysql.createConnection({
-    host:"localhost",
-    user:"root", // my username
-    password:"", // my password
-    database:"agronow"
+    host:"sv102.ifastnet.com:3306",
+    user:"agronow", // my username
+    password:"agronow@#$123", // my password
+    database:"nuvieliv_angelin"
 });
 
 /* English pages */
