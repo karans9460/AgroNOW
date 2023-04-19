@@ -41,7 +41,7 @@ app.use(parseUrl.urlencoded({ extended: true }));
 
 var con=mysql.createConnection({
     host:"sv102.ifastnet.com:3306",
-    user:"agronow", // my username
+    user:"nuvieliv_agronow", // my username
     password:"agronow@#$123", // my password
     database:"nuvieliv_angelin"
 });
