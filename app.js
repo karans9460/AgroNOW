@@ -51,10 +51,10 @@ app.use(parseUrl.urlencoded({ extended: true }));
 // });
 
 var con=mysql.createConnection({
-    host:"sv102.ifastnet.com",
-    user:"nuvieliv_agronow", // my username
-    password:"agronow@#$123", // my password
-    database:"nuvieliv_angelin"
+    host:"agronowpms.cvlqunyquzyf.ap-southeast-2.rds.amazonaws.com",
+    user:"admin", // my username
+    password:"Root#123", // my password
+    database:"agronowinit"
 });
 
 /* English pages */
@@ -206,6 +206,18 @@ app.get("/get-cart-en", function(req, res) {
     }
 });
 
+app.get("/my-account-en", function(req, res) {
+    if(req.session.user) {
+        if(req.session.user.category === 1){
+            res.redirect("/farmer-account-en");
+        } else {
+            res.redirect("/customer-account-en");
+        }
+    } else {
+        res.redirect("/signin-en");
+    }
+});
+
 
 app.get("/failReg-en", function(req, res) {
     res.render('failReg-en', { sgdata: "Sign In" });
@@ -267,6 +279,23 @@ app.get("/place-order-en", function(req, res){
                     res.status(500).send('Error updated data in MySQL');
                     return;
             }
+            con.query(`select item_id,units from orders WHERE user_id = ${uid} and status = ${1};`, function(err,rows){
+                if(err){
+                    console.error('Error updating data in MySQL:',err);
+                    res.status(500).send('Error updated data in MySQL');
+                    return;
+            }
+                for(i=0;i<rows.length;i++)
+                {
+                    con.query(`update stock set unit_av=unit_av-${rows[i].units} where item_id=${rows[i].item_id};`, function(err,result){
+                        if(err){
+                            console.error('Error updating data in MySQL:',err);
+                            res.status(500).send('Error updated data in MySQL');
+                            return;
+                    }
+                    });
+                }
+            });
         });
 
         res.redirect("/orders-en");
