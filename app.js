@@ -39,11 +39,18 @@ app.use(cookieParser());
 app.use(parseUrl.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 
+// var con=mysql.createConnection({
+//     host:"sql12.freemysqlhosting.net",
+//     user:"sql12613652", // my username
+//     password:"CQtsFYJ9MJ", // my password
+//     database:"sql12613652"
+// });
+
 var con=mysql.createConnection({
-    host:"sql12.freemysqlhosting.net",
-    user:"sql12613652", // my username
-    password:"CQtsFYJ9MJ", // my password
-    database:"sql12613652"
+    host:"sv102.ifastnet.com",
+    user:"nuvieliv_agronow", // my username
+    password:"agronow@#$123", // my password
+    database:"nuvieliv_angelin"
 });
 
 /* English pages */
