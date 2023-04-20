@@ -666,13 +666,20 @@ app.get("/signin-kn",(req,res)=>{
 });
 
 app.get("/shop-kn",(req,res)=>{
+    let sgdata = ""
+    if(req.session.user){
+         sgdata = "ಲಾಗ್ ಔಟ್";
+    } else {
+         sgdata = "ಸೈನ್ ಇನ್";
+    }
+
     con.query('SELECT * FROM stock',function(err,rows){
         if (err) {
               console.error('Error fetching data from MySQL:', err);
               res.status(500).send('Error fetching data from MySQL');
               return;
             }
-        res.render('shop-kn',{productId: -1, data:rows});
+        res.render('shop-kn',{sgdata: sgdata, productId: -1, data:rows});
     });
     //res.sendFile(__dirname+"/shop.ejs");
 });
@@ -703,6 +710,7 @@ app.get("/profile-kn", function (req, res){
     });
     
 });
+
 
 app.get("/add-cart-kn",(req,res)=>{
 
@@ -1009,6 +1017,29 @@ app.post("/login-kn",encodeUrl,(req,res)=>{
     });
 });
 
+app.post("/search-kn", function(req, res){
+    const searchText = req.body.searchText;
+    if(searchText === "")
+    {
+        res.redirect("/shop-kn");
+    } else{
+        con.query(`SELECT * FROM stock WHERE item_name = '${searchText}'`,function(err,rows){
+            if (err) {
+                  console.error('Error fetching data from MySQL:', err);
+                  res.status(500).send('Error fetching data from MySQL');
+                  return;
+                }
+            if(req.session.user){
+                res.render('shop-kn',{sgdata:"ಸೈನ್ ಇನ್", data:rows});
+            } else {
+                res.render('shop-kn',{sgdata:"ಲಾಗ್ ಔಟ್", data:rows});
+            }
+            
+        });
+    }
+   
+});
+
 // Add an item to the cart
 app.post('/add', (req, res) => {
     const productId = req.body.value;
@@ -1092,8 +1123,8 @@ app.get("/shop/:id",(req,res)=>{
 
 // });
 
-app.listen(8000,()=>{
-    console.log("Server running on port 8000");
+app.listen(5000,()=>{
+    console.log("Server running on port 5000");
 });
 /*app.get('/',function(req,res) {
   res.sendFile(__dirname+'/.html');
